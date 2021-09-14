@@ -1,0 +1,47 @@
+/* Add your css styles here */
+.page {
+  margin: 20;
+}
+
+.notes {
+  margin: 20 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.note {
+  min-height: 100;
+  min-width: 100;
+  max-width: 200;
+  margin: 10;
+  padding: 10;
+  border: 1px solid black;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.color-yellow {background-color: #FFF475}
+.color-red {background-color: #F28B82}
+.color-blue {background-color: #CBF0F8}
+.color-green {background-color: #CCFF90}
+
+.note-text {
+  flex: 1;
+  margin-bottom: 10;
+  border: 1px solid transparent;
+  resize: none;
+  color: black;
+  background-color: transparent;
+}
+
+.text-focus {
+  border: 1px solid grey
+}
+
+.note-btns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between
+}

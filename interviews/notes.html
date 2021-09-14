@@ -1,0 +1,91 @@
+<!-- Enter your HTML code here -->
+<script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<link rel="stylesheet" href="notes.css">
+
+<div id="root"/>
+
+<script type="text/babel">
+  'use strict'
+
+  const {useState, useEffect, useRef} = React;
+
+  const Note = ({onDelete}) => {
+    const textAreaRef = useRef();
+    const [text, setText] = useState('');
+    const [editing, setEditing] = useState(false);
+    const [color, setColor] = useState('white')
+
+    const onChangeText = evt => {
+      setText(evt.target.value)
+    }
+
+    const onClickEdit = (evt) => {
+      evt.preventDefault();
+      setEditing(!editing);
+    }
+
+    const onChangeColor = evt => {
+      setColor(evt.target.value);
+    }
+
+    useEffect(() => {
+      if (editing && textAreaRef.current)
+        textAreaRef.current.focus();
+    }, [editing]);
+
+    return (
+      <div className={`note color-${color}`}>
+        <textarea ref={textAreaRef} 
+          className={`note-text ${editing ? 'text-focus' : ''}`}
+          type="text"
+          name="note-text"
+          value={text}
+          onChange={onChangeText}
+          disabled={!editing}/>
+        <div className="note-btns">
+          <select value={color} onChange={onChangeColor}>
+            <option value="white">White</option>
+            <option value="yellow">Yellow</option>
+            <option value="red">Red</option>
+            <option value="green">Green</option>
+            <option value="blue">Blue</option>
+          </select>
+          <button onClick={onClickEdit}>{editing ? 'Done' : 'Edit'}</button>
+          <button onClick={onDelete}>Delete</button>  
+        </div>
+      </div>
+    );
+  };
+    
+  const App = () => {
+    const [curNoteID, setCurNoteID] = useState(0);
+    const [notes, setNotes] = useState([]);
+
+    const onAddNote = () => {
+      setNotes(cur => [...cur, curNoteID]);
+      setCurNoteID(curNoteID+1);
+    };
+
+    const onDelNoteFunc = (noteID) =>
+      () => setNotes(cur => cur.filter(ID => ID !== noteID));
+    
+    return (
+      <div className="page">
+        <button onClick={onAddNote}>Add Note</button>
+        <div className="notes">
+          {notes.map(noteID => 
+            <Note key={noteID} onDelete={onDelNoteFunc(noteID)}/>  
+          )}
+        </div>
+      </div>
+    );
+  };
+  
+  const domContainer = document.querySelector('#root');
+  ReactDOM.render(
+    React.createElement(App), domContainer
+  );
+</script>
+
