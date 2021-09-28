@@ -1,0 +1,66 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.13.12/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/jsx">
+      const App = () => {
+        const [board, setBoard] = React.useState(['','','','','','','','','']);
+        const [turnOf, setTurnOf] = React.useState('X');
+        const [winner, setWinner] = React.useState('');
+        
+        const genOnClickCell = (i) => () => {
+          const clone = board.slice();
+          clone[i] = turnOf;
+          setBoard(clone);
+          
+          console.log(clone[0], clone[1], clone[2]);
+
+          if ((clone[0] === clone[1] && clone[1] === clone[2])
+            || (clone[3] === clone[4] === clone[5])
+            || (clone[6] === clone[7] === clone[8])) {
+            setWinner(turnOf); 
+          }
+
+          setTurnOf(turnOf === 'X' ? 'O' : 'X');
+        };
+        
+        
+        return <>
+          <div style={{
+            height: 300,
+            width: 300,
+            display: 'flex',
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+          }}>
+            {board.map((cell, i) =>
+              <div 
+                onClick={(!winner && !cell) ? genOnClickCell(i) : undefined}
+                style={{
+                  boxSizing: 'border-box',
+                  height: 100,
+                  width: 100,
+                  border: '1px solid black',
+                }}>
+               {cell}
+              </div>
+            )}
+          </div>
+          {!!winner &&
+           <div>{winner}</div>
+          }
+        </>;
+      };
+      ReactDOM.render(
+        <App />,
+        document.getElementById('root')
+      );
+    </script>
+  </body>
+</html>

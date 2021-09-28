@@ -19,8 +19,10 @@ const sparseSearch = (arr: string[], s: string) => {
       
       foundPnt++;
       if (foundPnt === arr.length
-        || foundPnt === highPnt) break;
+        || foundPnt > highPnt) break;
     } while (true);
+
+    console.log({foundPnt, midStr});
 
     if (midStr === s)
       return foundPnt;
@@ -29,15 +31,15 @@ const sparseSearch = (arr: string[], s: string) => {
     if (midPnt === lowPnt)
       return undefined;
 
-    const searchLeft = () => highPnt = midPnt;
-    const searchRight = () => lowPnt = foundPnt;
+    const searchLow = () => highPnt = midPnt;
+    const searchHigh = () => lowPnt = foundPnt+1;
 
     if (!midStr) // never found a str cause end was blank filled
-      searchLeft();
+      searchLow();
     else if (s.localeCompare(midStr) < 0)
-      searchLeft();
+      searchLow();
     else
-      searchRight();
+      searchHigh();
   } while (true);
 };
 
@@ -46,5 +48,5 @@ const test5 = (arr: string[], s: string) => {
   console.log(arr, s, res);
 };
 
-const testArr = ['at', '', '', '', 'ball', '', '', '', 'car', '', '', 'dad', '', '', '', '', '', '', '', '', '', ''];
-test5(testArr, 'car');
+const testArr = ['at', 'ay', '', '', 'ball', '', '', '', 'car', '', '', 'dad', '', '', '', '', '', '', '', '', '', '', 'eat'];
+test5(testArr, 'eat');
