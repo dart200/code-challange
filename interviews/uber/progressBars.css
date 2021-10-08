@@ -1,0 +1,13 @@
+.progressBar {
+  height: 20px;
+  width: 200px;
+  margin: 10px;
+  border: 1px solid black;
+}
+
+.expander {
+  height: 100%;
+  width: 0;
+  background-color: blue;
+  transition: width 5s;
+}

@@ -1,0 +1,52 @@
+allow customers to leave reviews on order
+
+monitoring value 
+    - send credit if reviews are HQ
+    
+10,000,000 daily users
+    - 1 order/day avg
+    - 5 items per order
+    - 1% daily active user reviewed
+    - 100,000 item reviews/day
+    
+- each review component
+    - has a helpful vote
+    - tally views
+    - report button
+    
+review data model
+    - userId - 128 bits uuid
+    - itemId - 128 bits uuid
+    - rating - 1 byte
+    - text - 1kb
+    - voteCount - 4 bytes
+    
+user votes
+    - userId -
+    - storeId -
+    - voteList - [reviewId]
+    
+database
+    - refer noSQL, slightly better scaling
+    
+api
+    - createReview()
+        - api accesses to save review to database
+    - setVote({value: true|false})
+        - allows users to upvote a helpful review
+        - if threshold is passed, trigger event for payout
+    - itemRemoved()
+        - 
+        
+background processes
+    - checkVote()
+        - triggered by vote event
+        - review review, check if threshold has been passed, trigger reward payout
+        
+analytics
+    - viewEvent()
+    - voteEvent()
+    
+        
+    
+- set a threshold for a "good" review (10 helpful)
